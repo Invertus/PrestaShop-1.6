@@ -47,7 +47,7 @@ class DPDBaltics extends CarrierModule
         $this->displayName = $this->l('DPDBaltics');
         $this->author = 'Invertus';
         $this->tab = 'shipping_logistics';
-        $this->version = '1.1.7';
+        $this->version = '1.1.8';
         $this->need_instance = 0;
         parent::__construct();
 
@@ -123,7 +123,11 @@ class DPDBaltics extends CarrierModule
             $this->context->controller->php_self :
             Tools::getValue('controller');
 
-        if ('order' === $currentController) {
+        if ('product' === $currentController) {
+            $this->context->controller->addCSS($this->getPathUri() . 'views/css/front/product-carriers.css');
+        }
+
+        if (in_array($currentController, ['order', 'order-opc', 'ShipmentReturn'], true)) {
             $this->context->controller->addJS($this->getPathUri() . 'views/js/front/order.js');
             $this->context->controller->addJS($this->getPathUri() . 'views/js/front/order-input.js');
             $this->context->controller->addCSS($this->getPathUri() . 'views/css/front/order-input.css');
@@ -132,13 +136,7 @@ class DPDBaltics extends CarrierModule
             $cart = Context::getContext()->cart;
             $paymentService->filterPaymentMethods($cart);
             $paymentService->filterPaymentMethodsByCod($cart);
-        }
 
-        if ('product' === $currentController) {
-            $this->context->controller->addCSS($this->getPathUri() . 'views/css/front/product-carriers.css');
-        }
-
-        if (in_array($currentController, ['order', 'order-opc', 'ShipmentReturn'])) {
             /** @var Invertus\dpdBaltics\Repository\ProductRepository $productRepo */
             $productRepo = $this->getContainer(Invertus\dpdBaltics\Repository\ProductRepository::class);
             Media::addJsDef([
@@ -335,8 +333,7 @@ class DPDBaltics extends CarrierModule
             );
         }
 
-        if (!$cartWeightValidator->validate($cart->getTotalWeight(), $countryCode, $serviceCarrier['product_reference']))
-        {
+        if (!$cartWeightValidator->validate($cart->getTotalWeight(), $countryCode, $serviceCarrier['product_reference'])) {
             return false;
         }
 
@@ -944,7 +941,6 @@ class DPDBaltics extends CarrierModule
         foreach ($shipmentIds as $shipmentId) {
             $shipment = new DPDShipment($shipmentId);
             $plNumbers[] = $shipment->pl_number;
-
         }
 
         /** @var Invertus\dpdBaltics\Service\API\LabelApiService $labelApiService */
@@ -1115,11 +1111,13 @@ class DPDBaltics extends CarrierModule
 
         $dpdBaltics->context->smarty->assign('idOrder', $orderId);
 
-        $dpdBaltics->context->smarty->assign('message',
+        $dpdBaltics->context->smarty->assign(
+            'message',
             $dpdBaltics->l('Print label(s) from DPD system. Once label is saved you won\'t be able to modify contents of shipments')
         );
         $icon = $dpdBaltics->context->smarty->fetch(
-            $dpdBaltics->getLocalPath() . 'views/templates/hook/admin/order-list-save-label-icon.tpl');
+            $dpdBaltics->getLocalPath() . 'views/templates/hook/admin/order-list-save-label-icon.tpl'
+        );
 
 
         $dpdBaltics->context->smarty->assign('icon', $icon);
