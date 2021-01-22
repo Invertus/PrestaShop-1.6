@@ -23,6 +23,8 @@
 * Follow PSR-4 code standarts, more [info](https://www.specbee.com/blogs/introduction-php-standard-recommendation-psr#:~:text=PSR-4%20)
 
 ### Who do I talk to? ###
-* Repo owner or admin
-* Other community or team contact
+* Contact DPD support team: [more information](https://www.dpd.com/lt/en/send-parcels/plugins-for-eshops/)
+
+### Usage
+* Please refer to for more information [DPD offcial website](https://www.dpd.com/nl/en/business/webshops/)
 
