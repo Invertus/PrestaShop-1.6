@@ -251,6 +251,12 @@ class Config
         return _THEME_SHIP_DIR_ . $idCarrier . '.jpg';
     }
 
+    public static function getPsAndModuleVersion()
+    {
+        $module = Module::getInstanceByName('dpdbaltics');
+
+        return 'PS_'._PS_VERSION_.';'. $module->version;
+    }
 
     /**
      * Get default module configuration.
