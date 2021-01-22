@@ -3,6 +3,7 @@
 namespace Invertus\dpdBaltics\Config;
 
 use Configuration;
+use Module;
 use DPDParcel;
 use Invertus\dpdBaltics\Collection\DPDProductInstallCollection;
 use Invertus\dpdBaltics\DTO\DPDProductInstall;
