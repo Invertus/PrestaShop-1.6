@@ -28,7 +28,7 @@ $(document).ready(function () {
     $zoneRangeBlock.on('input',  '.js-zip-input', updateZoneCheckBoxEvent);
 
     $zoneRangeBlock.on('change', '#zoneRangeValues .js-all-ranges-input', updateZoneRangeEvent);
-    // $zoneRangeBlock.on('click', '#zoneRangeValues .js-remove-zone-range-btn', removeZoneRangeEvent);
+    $zoneRangeBlock.on('click', '#zoneRangeValues .js-remove-zone-range-btn', removeZoneRangeEvent);
 
     $form.on('click', 'button[name="processSaveZoneRanges"]', processSaveZoneRangesEvent);
     $form.on('click', 'button[name="processSaveAndStayZoneRanges"]', processSaveZoneRangesEvent);
