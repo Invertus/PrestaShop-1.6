@@ -160,11 +160,11 @@
 
                     <div class="col-lg-4">
                         <div class="form-group">
-                            <label class="control-label col-lg-3">
+                            <label class="control-label col-lg-3 hidden d-none">
                                 {l s='Reference 4' mod='dpdbaltics'}:
                             </label>
                             <div class="col-lg-6">
-                                <input type="text"
+                                <input type="hidden"
                                        name="reference4"
                                        title="{l s='Reference 4' mod='dpdbaltics'}"
                                        class="js-shipment-reference-input"

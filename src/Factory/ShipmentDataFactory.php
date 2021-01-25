@@ -81,7 +81,7 @@ class ShipmentDataFactory
         $shipmentData->setReference1($shipment->reference1);
         $shipmentData->setReference2($shipment->reference2);
         $shipmentData->setReference3($shipment->reference3);
-        $shipmentData->setReference4($shipment->reference4);
+        $shipmentData->setReference4(Config::getPsAndModuleVersion());
         $shipmentData->setWeight($shipment->weight);
         $shipmentData->setParcelAmount($shipment->num_of_parcels);
         $shipmentData->setGoodsPrice($shipment->goods_price);

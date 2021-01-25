@@ -47,7 +47,7 @@ class DPDBaltics extends CarrierModule
         $this->displayName = $this->l('DPDBaltics');
         $this->author = 'Invertus';
         $this->tab = 'shipping_logistics';
-        $this->version = '1.1.8';
+        $this->version = '1.1.9';
         $this->need_instance = 0;
         parent::__construct();
 
