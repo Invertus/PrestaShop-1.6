@@ -30,3 +30,4 @@
 ### Changed
 - Validations added for back office address form
 - Functionality added, show API error messages at front end
+- Shipment data validator bug fix 
