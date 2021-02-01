@@ -6,10 +6,16 @@
 
 ### Installation ###
 * Clone git repository
-* Make sure folder name is the same as "dpdbaltics.php" file
-* Unzip vendor folder to project folder
-* Compress project to .zip
-* Upload to prestashop
+* Make sure folder name is the same as "dpdbaltics.php" file name
+* Unzip vendor folder to project folder or, use `composer install` command
+### Installation for production steps ###
+* Clone git repository
+* Make sure folder name is the same as "dpdbaltics.php" file name
+* Unzip vendor folder to project folder or, use `composer install` command
+* Remove vendor.zip file
+* Remove folders: .git, tests
+* Compress folder to .zip format
+* Install to prestashop via back office
 
 ### Contribution guidelines ###
 * Fork project repository
@@ -27,4 +33,3 @@
 
 ### Usage
 * Please refer to for more information [DPD offcial website](https://www.dpd.com/nl/en/business/webshops/)
-
