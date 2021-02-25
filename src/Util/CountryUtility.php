@@ -4,11 +4,17 @@ namespace Invertus\dpdBaltics\Util;
 
 use Configuration;
 use Invertus\dpdBaltics\Config\Config;
+use Invertus\dpdBaltics\Provider\CurrentCountryProvider;
 
 class CountryUtility
 {
     public static function isEstonia()
     {
-        return Configuration::get(Config::WEB_SERVICE_COUNTRY) === Config::ESTONIA_ISO_CODE;
+        $module = \Module::getInstanceByName('dpdbaltics');
+
+        /** @var CurrentCountryProvider $countryProvider */
+        $countryProvider = $module->getContainer(CurrentCountryProvider::class);
+
+        return $countryProvider->getCurrentCountryIsoCode() === Config::ESTONIA_ISO_CODE;
     }
 }

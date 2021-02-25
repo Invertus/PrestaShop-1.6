@@ -35,6 +35,7 @@
 use Invertus\dpdBaltics\Config\Config;
 use Invertus\dpdBaltics\Factory\TabFactory;
 use Invertus\dpdBaltics\Install\Installer;
+use Invertus\dpdBaltics\Provider\CurrentCountryProvider;
 use Invertus\psModuleTabs\Object\Tab;
 use Invertus\psModuleTabs\Object\TabsCollection;
 use Invertus\psModuleTabs\Service\TabsInitializer;
@@ -71,8 +72,12 @@ function upgrade_module_1_1_1(DPDBaltics $module)
         return false;
     };
 
+    /** @var CurrentCountryProvider $currentCountryProvider */
+    $currentCountryProvider = $this->module->getContainer(CurrentCountryProvider::class);
+    $countryCode = $currentCountryProvider->getCurrentCountryIsoCode();
+
     $countryIso = Configuration::get(Config::WEB_SERVICE_COUNTRY);
-    Configuration::updateValue(Config::DPD_PARCEL_IMPORT_COUNTRY_SELECTOR, Country::getByIso($countryIso));
+    Configuration::updateValue(Config::DPD_PARCEL_IMPORT_COUNTRY_SELECTOR, Country::getByIso($countryCode));
 
     return true;
 }

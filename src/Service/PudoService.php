@@ -20,6 +20,7 @@ use Invertus\dpdBalticsApi\Api\DTO\Object\ParcelShop;
 use Language;
 use Smarty;
 use Tools;
+use Cart;
 
 class PudoService
 {
@@ -161,7 +162,14 @@ class PudoService
 
     public function searchPudoServices($city, $carrierId, $cartId)
     {
-        $countryCode = Configuration::get(Config::WEB_SERVICE_COUNTRY);
+        $cart = null;
+        if ($cartId) {
+            $cart = new Cart($cartId);
+        }
+
+        /** @var \Invertus\dpdBaltics\Provider\CurrentCountryProvider $currentCountryProvider */
+        $currentCountryProvider = $this->module->getContainer(\Invertus\dpdBaltics\Provider\CurrentCountryProvider::class);
+        $countryCode = $currentCountryProvider->getCurrentCountryIsoCode($cart);
 
         /** @var ParcelShopService $parcelShopService */
         /** @var PudoService $pudoService */

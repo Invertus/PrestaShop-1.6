@@ -34,6 +34,7 @@
 
 use Invertus\dpdBaltics\Collection\DPDProductInstallCollection;
 use Invertus\dpdBaltics\Config\Config;
+use Invertus\dpdBaltics\Provider\CurrentCountryProvider;
 use Invertus\dpdBaltics\Service\Carrier\CreateCarrierService;
 use Invertus\dpdBaltics\Service\Product\ProductService;
 
@@ -141,7 +142,11 @@ function upgrade_module_1_1_0()
     $carrierCreateService = $module->getContainer()->get(CreateCarrierService::class);
     $productService = $module->getContainer()->get(ProductService::class);
 
-    $productService->updateCarriersOnCountryChange(Configuration::get(Config::WEB_SERVICE_COUNTRY));
+    /** @var CurrentCountryProvider $currentCountryProvider */
+    $currentCountryProvider = $this->module->getContainer(CurrentCountryProvider::class);
+    $countryCode = $currentCountryProvider->getCurrentCountryIsoCode();
+
+    $productService->updateCarriersOnCountryChange($countryCode);
 
     $collection = new DPDProductInstallCollection();
     $product = Config::getProductByReference(Config::PRODUCT_TYPE_SATURDAY_DELIVERY);

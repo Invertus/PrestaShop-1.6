@@ -5,6 +5,7 @@ require_once __DIR__ . '/../../src/Entity/DPDProduct.php';
 
 use Invertus\dpdBaltics\Config\Config;
 use Invertus\dpdBaltics\Controller\AbstractAdminController;
+use Invertus\dpdBaltics\Provider\CurrentCountryProvider;
 use Invertus\dpdBaltics\Repository\ParcelShopRepository;
 use Invertus\dpdBaltics\Repository\ProductRepository;
 use Invertus\dpdBaltics\Repository\PudoRepository;
@@ -90,10 +91,14 @@ class AdminDPDBalticsPudoAjaxController extends AbstractAdminController
 
     private function getPudoSearch(Cart $cart)
     {
+        /** @var CurrentCountryProvider $currentCountryProvider */
+        $currentCountryProvider = $this->module->getContainer(CurrentCountryProvider::class);
         /** @var ParcelShopRepository $parcelShopRepo */
         $parcelShopRepo = $this->module->getContainer(ParcelShopRepository::class);
-        $countryCode = Configuration::get(Config::WEB_SERVICE_COUNTRY);
+
+        $countryCode = $currentCountryProvider->getCurrentCountryIsoCode($cart);
         $cityList = $parcelShopRepo->getAllCitiesByCountryCode($countryCode);
+
         $selectedAddress = new Address($cart->id_address_delivery);
 
         $this->context->smarty->assign(
