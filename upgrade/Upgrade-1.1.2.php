@@ -35,6 +35,7 @@
 use Invertus\dpdBaltics\Config\Config;
 use Invertus\dpdBaltics\Factory\TabFactory;
 use Invertus\dpdBaltics\Install\Installer;
+use Invertus\dpdBaltics\Provider\CurrentCountryProvider;
 use Invertus\dpdBaltics\Repository\ProductRepository;
 use Invertus\dpdBaltics\Service\Product\ProductService;
 use Invertus\psModuleTabs\Object\Tab;
@@ -54,7 +55,10 @@ if (!defined('_PS_VERSION_')) {
  */
 function upgrade_module_1_1_2(DPDBaltics $module)
 {
-    $newCountryIsoCode = Configuration::get(Config::WEB_SERVICE_COUNTRY);
+    /** @var CurrentCountryProvider $currentCountryProvider */
+    $currentCountryProvider = $this->module->getContainer(CurrentCountryProvider::class);
+    $newCountryIsoCode = $currentCountryProvider->getCurrentCountryIsoCode();
+
     /** @var ProductRepository $productRepository */
     $productRepository = $module->getContainer(ProductRepository::class);
     /** @var ProductService $productService */

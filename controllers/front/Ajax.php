@@ -11,6 +11,7 @@
  */
 
 use Invertus\dpdBaltics\Config\Config;
+use Invertus\dpdBaltics\Provider\CurrentCountryProvider;
 use Invertus\dpdBaltics\Repository\ParcelShopRepository;
 use Invertus\dpdBaltics\Repository\ProductRepository;
 use Invertus\dpdBaltics\Repository\PudoRepository;
@@ -77,7 +78,11 @@ class DpdBalticsAjaxModuleFrontController extends ModuleFrontController
     public function postProcess()
     {
         $action = Tools::getValue('action');
-        $countryCode = Configuration::get(Config::WEB_SERVICE_COUNTRY);
+
+        /** @var CurrentCountryProvider $currentCountryProvider */
+        $currentCountryProvider = $this->module->getContainer(CurrentCountryProvider::class);
+
+        $countryCode = $currentCountryProvider->getCurrentCountryIsoCode();
         $city = Tools::getValue('city_name');
         $carrierId = (int)Tools::getValue('id_carrier');
         switch ($action) {

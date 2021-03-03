@@ -47,7 +47,7 @@ class DPDBaltics extends CarrierModule
         $this->displayName = $this->l('DPDBaltics');
         $this->author = 'Invertus';
         $this->tab = 'shipping_logistics';
-        $this->version = '3.1.3';
+        $this->version = '3.1.4';
         $this->need_instance = 0;
         parent::__construct();
 
@@ -313,7 +313,11 @@ class DPDBaltics extends CarrierModule
 
         $productAvailabilityService = $this->getContainer(\Invertus\dpdBaltics\Service\Product\ProductAvailabilityService::class);
         $cartWeightValidator = $this->getContainer(\Invertus\dpdBaltics\Validate\Weight\CartWeightValidator::class);
-        $countryCode = Configuration::get(\Invertus\dpdBaltics\Config\Config::WEB_SERVICE_COUNTRY);
+
+        /** @var \Invertus\dpdBaltics\Provider\CurrentCountryProvider $currentCountryProvider */
+        $currentCountryProvider = $this->getContainer(\Invertus\dpdBaltics\Provider\CurrentCountryProvider::class);
+        $countryCode = $currentCountryProvider->getCurrentCountryIsoCode($cart);
+
         if (!$productAvailabilityService->checkIfCarrierIsAvailable($carrier->id_reference)) {
             return false;
         }
@@ -389,7 +393,11 @@ class DPDBaltics extends CarrierModule
         /** @var Cart $cart */
         $cart = $params['cart'];
         $carrier = new Carrier($cart->id_carrier, $this->context->language->id);
-        $countryCode = Configuration::get(\Invertus\dpdBaltics\Config\Config::WEB_SERVICE_COUNTRY);
+
+        /** @var \Invertus\dpdBaltics\Provider\CurrentCountryProvider $currentCountryProvider */
+        $currentCountryProvider = $this->getContainer(\Invertus\dpdBaltics\Provider\CurrentCountryProvider::class);
+        $countryCode = $currentCountryProvider->getCurrentCountryIsoCode($cart);
+
         $deliveryAddress = new Address($cart->id_address_delivery);
         $idShop = $this->context->shop->id;
 
@@ -753,7 +761,10 @@ class DPDBaltics extends CarrierModule
         $parcelShopService= $this->getContainer(\Invertus\dpdBaltics\Service\Parcel\ParcelShopService::class);
         $parcelShopRepo = $this->getContainer(\Invertus\dpdBaltics\Repository\ParcelShopRepository::class);
 
-        $countryCode = Configuration::get(\Invertus\dpdBaltics\Config\Config::WEB_SERVICE_COUNTRY);
+        /** @var \Invertus\dpdBaltics\Provider\CurrentCountryProvider $currentCountryProvider */
+        $currentCountryProvider = $this->getContainer(\Invertus\dpdBaltics\Provider\CurrentCountryProvider::class);
+        $countryCode = $currentCountryProvider->getCurrentCountryIsoCode($cart);
+
         $selectedCity = null;
         try {
             if ($pudoId) {

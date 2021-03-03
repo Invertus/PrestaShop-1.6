@@ -255,7 +255,11 @@ class AbstractAdminController extends ModuleAdminController
         }
         /** @var ParcelShopRepository $parcelShopRepo */
         $parcelShopRepo = $this->module->getContainer(ParcelShopRepository::class);
-        $countryCode = Configuration::get(Config::WEB_SERVICE_COUNTRY);
+
+        /** @var \Invertus\dpdBaltics\Provider\CurrentCountryProvider $currentCountryProvider */
+        $currentCountryProvider = $this->module->getContainer(\Invertus\dpdBaltics\Provider\CurrentCountryProvider::class);
+        $countryCode = $currentCountryProvider->getCurrentCountryIsoCode();
+
         if (!$parcelShopRepo->hasAnyParcelShops($countryCode)) {
             $this->warnings[] = $this->context->smarty->fetch(
                 $this->module->getLocalPath() . 'views/templates/admin/warning-message-with-link.tpl',

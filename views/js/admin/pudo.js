@@ -30,6 +30,7 @@ $(document).ready(function () {
                 'zip_code': $zipCode,
                 'street': $street,
                 'id_cart': id_cart,
+                'id_order': id_order,
                 'ajax': 1,
                 'id_service': $idService,
                 'action': 'searchPudoServices',
