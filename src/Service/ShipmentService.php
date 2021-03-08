@@ -131,10 +131,13 @@ class ShipmentService
         $products = $order->getProducts();
         $parcelPrice = 0;
         $parcelWeight = 0;
+
+        $orderShippingCost = $order->total_shipping_tax_incl ?: 0;
         foreach ($products as $product) {
             $parcelPrice += round($product['total_wt'], 2);
             $parcelWeight += $product['weight'] * $product['product_quantity'];
         }
+        $parcelPrice += $orderShippingCost;
         $shipment = $this->createShipment($order, $idProduct, $isTestMode, 1, $parcelWeight, $parcelPrice);
 
         if (!$shipment->id) {
@@ -150,18 +153,23 @@ class ShipmentService
         $parcelPrice = 0;
         $parcelWeight = 0;
         $parcelsNum = 0;
+        $orderShippingCost = $order->total_shipping_tax_incl ?: 0;
+
         foreach ($products as $product) {
             $parcelPrice += round($product['total_wt'], 2);
+            $parcelPrice += $orderShippingCost;
             $parcelWeight += $product['weight'] * $product['product_quantity'];
             $parcelsNum++;
+            $shipment = $this->createShipment($order, $idProduct, $isTestMode, $parcelsNum, $parcelWeight, $parcelPrice);
         }
 
-        $shipment = $this->createShipment($order, $idProduct, $isTestMode, $parcelsNum, $parcelWeight, $parcelPrice);
         if (!$shipment->id) {
             return false;
         }
+
         return true;
     }
+
 
     private function createParcelQuantityDistributedShipments(Order $order, $idProduct, $isTestMode)
     {
@@ -169,12 +177,15 @@ class ShipmentService
         $parcelPrice = 0;
         $parcelWeight = 0;
         $parcelsNum = 0;
+        $orderShippingCost = $order->total_shipping_tax_incl ?: 0;
+
         foreach ($products as $product) {
             $parcelPrice += round($product['total_wt'], 2);
             $parcelWeight += $product['weight'] * $product['product_quantity'];
             $parcelsNum += $product['product_quantity'];
         }
 
+        $parcelPrice += $orderShippingCost;
         $shipment = $this->createShipment($order, $idProduct, $isTestMode, $parcelsNum, $parcelWeight, $parcelPrice);
         if (!$shipment->id) {
             return false;
