@@ -1018,6 +1018,8 @@ class DPDBaltics extends CarrierModule
         ) {
             return;
         }
+
+        //TODO Check why there is not functionality to print parcel distributed shipments
         if (Tools::isSubmit('print_label')) {
             $idShipment = Tools::getValue('id_dpd_shipment');
             $this->printLabel($idShipment);
