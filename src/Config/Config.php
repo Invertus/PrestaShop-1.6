@@ -225,23 +225,85 @@ class Config
     const PRODUCT_TYPE_SATURDAY_DELIVERY_COD = 'D-B2C-COD-SAT';
     const PRODUCT_TYPE_SAME_DAY_DELIVERY = '274';
 
-    public static function getProducts()
+    const PRODUCT_NAME_B2B = [
+        'LT' => 'DPD kurjeris',
+        'EE' => 'DPD kuller',
+        'LV' => 'DPD B2C',
+        'EN' => 'DPD B2C',
+    ];
+
+    const PRODUCT_NAME_PUDO = [
+        'LT' => 'DPD Paštomatas',
+        'EE' => 'DPD pakiautomaat',
+        'LV' => 'DPD Pickup',
+        'EN' => 'DPD Pickup',
+    ];
+
+    const PRODUCT_NAME_B2B_COD = [
+        'LT' => 'DPD Kurjeris, atsiskaitymas grynaisiais',
+        'EE' => 'Lunamakse',
+        'LV' => 'DPD B2C COD',
+        'EN' => 'DPD B2C COD',
+    ];
+
+
+    const PRODUCT_NAME_PUDO_COD = [
+        'LT' => 'DPD Paštomatas, atsiskaitymas grynaisiais',
+        'EE' => 'Lunamakse DPD pakiautomaat ',
+        'LV' => 'DPD Pickup COD',
+        'EN' => 'DPD Pickup COD',
+    ];
+
+    const PRODUCT_NAME_SATURDAY_DELIVERY = [
+        'LT' => 'Pristatymas Šestadienį',
+        'EE' => 'DPD kuller laupäeval',
+        'LV' => 'Saturday Delivery',
+        'EN' => 'Saturday Delivery',
+    ];
+
+    const PRODUCT_NAME_SATURDAY_DELIVERY_COD = [
+        'LT' => 'Pristatymas Šestadienį, atsiskaitymas grynaisiais',
+        'EE' => 'Lunamakse DPD kuller laupäeval',
+        'LV' => 'Saturday Delivery COD',
+        'EN' => 'Saturday Delivery COD',
+    ];
+
+    const PRODUCT_NAME_SAME_DAY_DELIVERY = [
+        'LT' => 'Pristatymas tą pačią dieną',
+        'EE' => 'Samal päeval kohaletoimetamine',
+        'LV' => 'Same day Delivery',
+        'EN' => 'Same day Delivery',
+    ];
+
+    public static function getProducts($webServiceCountry = 'EN')
     {
         $collection = new DPDProductInstallCollection();
 
-        $product = self::getProductByReference(self::PRODUCT_TYPE_B2B);
+        $product = self::getProductByReference(self::PRODUCT_TYPE_B2B, $webServiceCountry);
         $collection->add($product);
 
-        $product = self::getProductByReference(self::PRODUCT_TYPE_PUDO);
+        $product = self::getProductByReference(self::PRODUCT_TYPE_PUDO, $webServiceCountry);
         $collection->add($product);
 
-        $product = self::getProductByReference(self::PRODUCT_TYPE_B2B_COD);
+        $product = self::getProductByReference(self::PRODUCT_TYPE_B2B_COD, $webServiceCountry);
         $collection->add($product);
 
-        $product = self::getProductByReference(self::PRODUCT_TYPE_SATURDAY_DELIVERY);
+        $product = self::getProductByReference(
+            self::PRODUCT_TYPE_SATURDAY_DELIVERY,
+            $webServiceCountry
+        );
         $collection->add($product);
 
-        $product = self::getProductByReference(self::PRODUCT_TYPE_SATURDAY_DELIVERY_COD);
+        $product = self::getProductByReference(
+            self::PRODUCT_TYPE_PUDO_COD,
+            $webServiceCountry
+        );
+        $collection->add($product);
+
+        $product = self::getProductByReference(
+            self::PRODUCT_TYPE_SATURDAY_DELIVERY_COD,
+            $webServiceCountry
+        );
         $collection->add($product);
 
         return $collection;
@@ -300,12 +362,13 @@ class Config
         ];
     }
 
-    public static function getProductByReference($productReference)
+    public static function getProductByReference($productReference, $countryCode = 'EN')
     {
+
         switch ($productReference) {
             case self::PRODUCT_TYPE_B2B:
                 $product = new DPDProductInstall();
-                $product->setName('DPD B2C');
+                $product->setName(self::PRODUCT_NAME_B2B[$countryCode]);
                 $product->setId(self::PRODUCT_TYPE_B2B);
                 $product->setDelay('Your delivery experts');
                 $product->setIsPudo(0);
@@ -314,7 +377,7 @@ class Config
                 break;
             case self::PRODUCT_TYPE_PUDO:
                 $product = new DPDProductInstall();
-                $product->setName('DPD Pickup');
+                $product->setName(self::PRODUCT_NAME_PUDO[$countryCode]);
                 $product->setId(self::PRODUCT_TYPE_PUDO);
                 $product->setDelay('Your delivery experts');
                 $product->setIsPudo(1);
@@ -323,7 +386,7 @@ class Config
                 break;
             case self::PRODUCT_TYPE_B2B_COD:
                 $product = new DPDProductInstall();
-                $product->setName('DPD B2C COD');
+                $product->setName(self::PRODUCT_NAME_B2B_COD[$countryCode]);
                 $product->setId(self::PRODUCT_TYPE_B2B_COD);
                 $product->setDelay('Your delivery experts');
                 $product->setIsPudo(0);
@@ -332,7 +395,7 @@ class Config
                 break;
             case self::PRODUCT_TYPE_PUDO_COD:
                 $product = new DPDProductInstall();
-                $product->setName('DPD Pickup COD');
+                $product->setName(self::PRODUCT_NAME_PUDO_COD[$countryCode]);
                 $product->setId(Config::PRODUCT_TYPE_PUDO_COD);
                 $product->setDelay('Your delivery experts');
                 $product->setIsPudo(1);
@@ -341,7 +404,7 @@ class Config
                 break;
             case self::PRODUCT_TYPE_SATURDAY_DELIVERY:
                 $product = new DPDProductInstall();
-                $product->setName('Saturday Delivery');
+                $product->setName(self::PRODUCT_NAME_SATURDAY_DELIVERY[$countryCode]);
                 $product->setId(self::PRODUCT_TYPE_SATURDAY_DELIVERY);
                 $product->setDelay('Your delivery experts');
                 $product->setIsPudo(0);
@@ -350,7 +413,7 @@ class Config
                 break;
             case self::PRODUCT_TYPE_SATURDAY_DELIVERY_COD:
                 $product = new DPDProductInstall();
-                $product->setName('Saturday Delivery COD');
+                $product->setName(self::PRODUCT_NAME_SATURDAY_DELIVERY_COD[$countryCode]);
                 $product->setId(self::PRODUCT_TYPE_SATURDAY_DELIVERY_COD);
                 $product->setDelay('Your delivery experts');
                 $product->setIsPudo(0);
@@ -359,7 +422,7 @@ class Config
                 break;
             case self::PRODUCT_TYPE_SAME_DAY_DELIVERY:
                 $product = new DPDProductInstall();
-                $product->setName('Same day Delivery');
+                $product->setName(self::PRODUCT_NAME_SAME_DAY_DELIVERY[$countryCode]);
                 $product->setId(self::PRODUCT_TYPE_SAME_DAY_DELIVERY);
                 $product->setDelay('Your delivery experts');
                 $product->setIsPudo(1);
