@@ -151,7 +151,7 @@ class AdminDPDBalticsSettingsController extends AbstractAdminController
             /** @var ProductService $productService */
             $productService = $this->module->getContainer()->get(ProductService::class);
             /** @var CarrierUpdateHandler $carrierService */
-            $carrierService = $this->module->getModuleContainer()->get(CarrierUpdateHandler::class);
+            $carrierService = $this->module->getContainer()->get(CarrierUpdateHandler::class);
 
             $newCountry = Tools::getValue(Config::WEB_SERVICE_COUNTRY);
             Configuration::updateValue(Config::DPD_PARCEL_IMPORT_COUNTRY_SELECTOR, Country::getByIso($newCountry));
