@@ -8,7 +8,7 @@
  *
  *  International Registered Trademark & Property of INVERTUS, UAB
  */
-
+//TODO check this one https://stackoverflow.com/questions/7058094/google-maps-api-cannot-read-property-e3-of-undefined
 /**
  * global zoom level of google maps.
  * @type {number}
@@ -28,6 +28,7 @@ if (typeof google !== 'undefined') {
 }
 
 $(document).ready(function () {
+    $(document).ajaxStop(function () {
     $(".dpd-input-wrapper .dpd-input-placeholder").on("click", function () {
         $(this).closest(".dpd-input-wrapper").find("input").focus();
     });
@@ -367,6 +368,7 @@ $(document).ready(function () {
         }
     }
 });
+});
 
 /**
  * main function for getting google map
@@ -409,7 +411,10 @@ function initMap(coordinates, loadMarkers, selectedPudoId, firstLoad, referenceI
             coordinates = DPDgetDefaultCoordinates($('.pickup-map-'+ idReference));
         }
 
-        dpdMap[idReference].setCenter(new google.maps.LatLng(parseFloat(coordinates.lat), parseFloat(coordinates.lng)));
+
+        if (coordinates) {
+            dpdMap[idReference].setCenter(new google.maps.LatLng(parseFloat(coordinates.lat), parseFloat(coordinates.lng)));
+        }
 
         google.maps.event.trigger(dpdMap[idReference], 'resize');
 

@@ -1,4 +1,15 @@
 $(document).ready(function () {
+    var city = $('select[name="dpd-city"]').val();
+    updateStreetSelect(city);
+    
+    $( document ).ajaxComplete(function( event, request, settings ) {
+        var action = DPDgetUrlParam('method', settings.data);
+
+        if (action == 'updateAddressesSelected') {
+            var city = $('select[name="dpd-city"]').val();
+            updateStreetSelect(city);
+        }
+    });
     $(document).on('change', 'select[name="dpd-city"]', function () {
         var city = $('select[name="dpd-city"]').val();
         updateStreetSelect(city);
@@ -115,6 +126,31 @@ $(document).ready(function () {
         });
     }
 
+    function updateMapsApiPoint() {
+        $.ajax(dpdHookAjaxUrl, {
+            type: 'POST',
+            data: {
+                'ajax': 1,
+                'action': 'updateMapsApiPoint',
+                'token': static_token
+            },
+            success: function (response) {
+
+                response = JSON.parse(response);
+                if (response.text) {
+                    DPDdisplayMessage($container, response.text);
+                }
+            },
+            error: function (response) {
+                var responseText = JSON.parse(response.responseText);
+
+                if (responseText) {
+                    DPDdisplayMessage($container, responseText.template);
+                }
+            }
+        });
+    }
+
     function DPDdisplayMessage(parent, template) {
         var $messageContainer = parent.find('.dpd-message-container');
         $messageContainer.replaceWith(template);
@@ -126,3 +162,19 @@ $(document).ready(function () {
         $messageContainer.html('');
     }
 });
+
+function DPDgetUrlParam(sParam, string)
+{
+    var sPageURL = decodeURIComponent(string),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+}
