@@ -884,8 +884,6 @@ class DPDBaltics extends CarrierModule
         $isAdminOrderPage = 'AdminOrders' === Tools::getValue('controller') ;
         $isAdminNewOrderForm = Tools::isSubmit('addorder') || Tools::isSubmit('cart_summary');
 
-        $dpdPhone = Tools::getValue('dpd-phone');
-        $dpdPhoneArea = Tools::getValue('dpd-phone-area');
         if ($isAdminOrderPage && $isAdminNewOrderForm) {
             $dpdPhone = Tools::getValue('dpd-phone');
             $dpdPhoneArea = Tools::getValue('dpd-phone-area');

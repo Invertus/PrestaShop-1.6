@@ -47,7 +47,7 @@ function saveSelectedPhoneNumber(phoneNumber, phoneArea) {
             var responseText = JSON.parse(response.responseText);
 
             if (responseText) {
-                DPDdisplayMessage($container, 'fgerwgergreg');
+                DPDdisplayMessage($container, responseText);
             }
         }
     });
