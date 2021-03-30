@@ -159,6 +159,10 @@ class DPDBaltics extends CarrierModule
             $this->context->controller->addJS($this->getPathUri() . 'views/js/front/pudo.js');
             $this->context->controller->addJS($this->getPathUri() . 'views/js/front/pudo-search.js');
         }
+
+        if ($currentController === 'order-opc') {
+            $this->context->controller->addJS($this->getPathUri() . 'views/js/front/order-opc-phone-handler.js');
+        }
     }
 
     public function hookActionCarrierProcess(&$params)
@@ -203,6 +207,7 @@ class DPDBaltics extends CarrierModule
                 return;
             }
         }
+
         if (!Tools::getValue('dpd-phone')) {
             $this->context->controller->errors[] =
                 $this->l('In order to use DPD Carrier you need to enter phone number');
@@ -879,6 +884,8 @@ class DPDBaltics extends CarrierModule
         $isAdminOrderPage = 'AdminOrders' === Tools::getValue('controller') ;
         $isAdminNewOrderForm = Tools::isSubmit('addorder') || Tools::isSubmit('cart_summary');
 
+        $dpdPhone = Tools::getValue('dpd-phone');
+        $dpdPhoneArea = Tools::getValue('dpd-phone-area');
         if ($isAdminOrderPage && $isAdminNewOrderForm) {
             $dpdPhone = Tools::getValue('dpd-phone');
             $dpdPhoneArea = Tools::getValue('dpd-phone-area');

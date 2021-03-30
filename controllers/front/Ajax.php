@@ -85,9 +85,10 @@ class DpdBalticsAjaxModuleFrontController extends ModuleFrontController
         $countryCode = $currentCountryProvider->getCurrentCountryIsoCode();
         $city = Tools::getValue('city_name');
         $carrierId = (int)Tools::getValue('id_carrier');
+        $cartId = Context::getContext()->cart->id;
         switch ($action) {
             case 'searchPudoServices':
-                $cartId = Context::getContext()->cart->id;
+
                 try {
                     $response = $this->searchPudoServices($countryCode, $city, $carrierId, $cartId);
                 } catch (Exception $e) {
@@ -109,6 +110,24 @@ class DpdBalticsAjaxModuleFrontController extends ModuleFrontController
                 $city = Tools::getValue('city');
                 $countryCode = Configuration::get(Config::WEB_SERVICE_COUNTRY);
                 $this->updateStreetSelect($countryCode, $city);
+                break;
+            case 'saveSelectedPhoneNumber':
+                /** @var  \Invertus\dpdBaltics\Service\CarrierPhoneService $phoneService */
+                $phoneService = $this->module->getContainer(\Invertus\dpdBaltics\Service\CarrierPhoneService::class);
+
+                if(!$phoneService->saveCarrierPhone($cartId,
+                    Tools::getValue('phone_number'),
+                    Tools::getValue('phone_area')
+                )){
+                    $this->messages[] = $this->module->l('Could not save carrier phone number');
+                    $this->ajaxDie(json_encode(
+                        [
+                            'status' => false,
+                            'template' => $this->getMessageTemplate('danger'),
+                        ]
+                    ));
+                };
+
                 break;
             case 'updateParcelBlock':
                 $street = Tools::getValue('street');

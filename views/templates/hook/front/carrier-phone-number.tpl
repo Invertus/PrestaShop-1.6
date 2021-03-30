@@ -1,5 +1,8 @@
 <div class="container dpd-checkout-phone-container dpd-phone-block">
     <div class="row">
+        <div class="alert alert-danger hidden error-message">
+            <p>{l s='Invalid phone number' mod='dpdbaltics'}</p>
+        </div>
         <div class="col-lg-5 col-12 ">
             <p>{l s='This a phone number that will be used for deliveries' mod='dpdbaltics'}</p></div>
         <div class="col-lg-3 col-4 dpd-input-wrapper dpd-select-wrapper hasValue small-padding-sm-right css-dpd-phone-prefix">
