@@ -161,7 +161,15 @@ class DPDBaltics extends CarrierModule
         }
 
         if ($currentController === 'order-opc') {
-            $this->context->controller->addJS($this->getPathUri() . 'views/js/front/order-opc-phone-handler.js');
+            $this->context->controller->addJS($this->getPathUri() . 'views/js/front/order-opc.js');
+            Media::addJsDef([
+               'order_opc_errors' => [
+                   'pickup_point_error' => $this->l('Please select pickup point'),
+                   'invalid_phone_error' => $this->l('Invalid phone number'),
+                   'empty_phone_error' => $this->l('Please fill up phone number'),
+                   'invalid_delivery_time' => $this->l('Please select delivery time')
+               ]
+            ]);
         }
     }
 

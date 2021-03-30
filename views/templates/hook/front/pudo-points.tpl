@@ -9,6 +9,10 @@
  *  International Registered Trademark & Property of INVERTUS, UAB
  *}
 
+<div id="order-opc-errors" class="alert alert-danger hidden">
+    <p></p>
+</div>
+
 {if (!isset($disableMap) || (isset($disableMap) && !$disableMap))}
     <div class="container dpd-checkout-pickup-container dpd-pudo-container pickup-map-{$carrierId}" data-id="{$carrierId}" {if isset($dpdIdCarrier) && $dpdIdCarrier}data-pudo-id-carrier="{$dpdIdCarrier}"{/if}>
         <div class="panel panel-default">
