@@ -44,3 +44,4 @@
 - Translations added for carriers on webservice change
 - javascript file priorities changed to load google map correctly in cart
 - Map reaload on address changed added
+- Ajax request to save phone number on order opc carrier, number validation added
