@@ -42,3 +42,5 @@
 ### Changed
 - Added shipping cost to dpd shipment
 - Translations added for carriers on webservice change
+- javascript file priorities changed to load google map correctly in cart
+- Map reaload on address changed added
