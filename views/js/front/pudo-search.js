@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    console.log('test');
     var city = $('select[name="dpd-city"]').val();
     if (city) {
         updateStreetSelect(city);
