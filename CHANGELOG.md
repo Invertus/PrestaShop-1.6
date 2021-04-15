@@ -42,3 +42,4 @@
 ### Changed
 - Added shipping cost to dpd shipment
 - Translations added for carriers on webservice change
+- Map sequence loading improvements when prestashop js cache enabled
