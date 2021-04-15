@@ -31,7 +31,6 @@ $(document).ready(function () {
         infoWindow = new google.maps.InfoWindow();
     }
 
-
     $(".dpd-input-wrapper .dpd-input-placeholder").on("click", function () {
         $(this).closest(".dpd-input-wrapper").find("input").focus();
     });
@@ -413,7 +412,9 @@ function initMap(coordinates, loadMarkers, selectedPudoId, firstLoad, referenceI
             coordinates = DPDgetDefaultCoordinates($('.pickup-map-'+ idReference));
         }
 
-        dpdMap[idReference].setCenter(new google.maps.LatLng(parseFloat(coordinates.lat), parseFloat(coordinates.lng)));
+        if (coordinates.lat && coordinates.lng) {
+            dpdMap[idReference].setCenter(new google.maps.LatLng(parseFloat(coordinates.lat), parseFloat(coordinates.lng)));
+        }
 
         google.maps.event.trigger(dpdMap[idReference], 'resize');
 
