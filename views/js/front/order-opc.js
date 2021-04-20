@@ -54,9 +54,16 @@ function saveSelectedPhoneNumber(phoneNumber, phoneArea) {
             'token': static_token
         },
         success: function (response) {
+            if (!response.status) {
+                DPDdisplayMessage($('.dpd-pudo-container'), response.template);
+            }
         },
         error: function (response) {
+            var responseText = JSON.parse(response.responseText);
 
+            if (responseText) {
+                DPDdisplayMessage($('.dpd-pudo-container'), responseText.template);
+            }
         }
     });
 }
