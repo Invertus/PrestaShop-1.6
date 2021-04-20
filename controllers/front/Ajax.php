@@ -108,7 +108,6 @@ class DpdBalticsAjaxModuleFrontController extends ModuleFrontController
                 break;
             case 'updateStreetSelect':
                 $city = Tools::getValue('city');
-                $countryCode = Configuration::get(Config::WEB_SERVICE_COUNTRY);
                 $this->updateStreetSelect($countryCode, $city);
                 break;
             case 'saveSelectedPhoneNumber':
@@ -149,7 +148,6 @@ class DpdBalticsAjaxModuleFrontController extends ModuleFrontController
             case 'saveSelectedStreet':
                 $city = Tools::getValue('city');
                 $street = Tools::getValue('street');
-                $countryCode = Configuration::get(Config::WEB_SERVICE_COUNTRY);
                 $this->saveParcelShop($countryCode, $city, $street);
                 break;
             default:

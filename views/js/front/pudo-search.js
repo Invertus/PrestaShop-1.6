@@ -1,8 +1,5 @@
 $(document).ready(function () {
-        var city = $('select[name="dpd-city"]').val();
-        if (city) {
-            updateStreetSelect(city);
-        }
+    updateStreet();
 
     $( document ).ajaxComplete(function( event, request, settings ) {
         if (currentController !== 'order-opc') {
@@ -11,10 +8,7 @@ $(document).ready(function () {
         var method = DPDgetUrlParam('method', settings.data)
 
         if ( method === 'updateAddressesSelected') {
-            var city = $('select[name="dpd-city"]').val();
-            if (city) {
-                updateStreetSelect(city);
-            }
+            updateStreet();
         }
     });
 
@@ -147,6 +141,13 @@ $(document).ready(function () {
         var $messageContainer = parent.find('.dpd-message-container');
         $messageContainer.html('');
     }
+
+    function updateStreet() {
+        var city = $('select[name="dpd-city"]').val();
+        if (city) {
+            updateStreetSelect(city);
+        }
+    }
 });
 
 function DPDgetUrlParam(sParam, string)
@@ -164,3 +165,4 @@ function DPDgetUrlParam(sParam, string)
         }
     }
 }
+
