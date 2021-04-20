@@ -1,3 +1,8 @@
+
+<div id="order-opc-errors" class="alert alert-danger hidden">
+    <p></p>
+</div>
+
 <div class="container dpd-checkout-phone-container dpd-phone-block">
     <div class="row">
         <div class="col-lg-5 col-12 ">

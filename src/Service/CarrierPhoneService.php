@@ -100,6 +100,12 @@ class CarrierPhoneService
 
     public function saveCarrierPhone($idCart, $dpdPhone, $dpdPhoneCode)
     {
+
+        if (!\Validate::isPhoneNumber($dpdPhoneCode.$dpdPhone)) {
+
+            return false;
+        }
+
         $idDpdOrderPhone = $this->orderRepository->getOrderPhoneIdByCartId($idCart);
 
         if (!$idDpdOrderPhone) {

@@ -159,6 +159,18 @@ class DPDBaltics extends CarrierModule
             $this->context->controller->addJS($this->getPathUri() . 'views/js/front/pudo.js');
             $this->context->controller->addJS($this->getPathUri() . 'views/js/front/pudo-search.js');
         }
+
+        if ($currentController === 'order-opc') {
+            $this->context->controller->addJS($this->getPathUri() . 'views/js/front/order-opc.js');
+            Media::addJsDef([
+               'order_opc_errors' => [
+                   'pickup_point_error' => addslashes($this->l('Please select pickup point')),
+                   'invalid_phone_error' => addslashes($this->l('Invalid phone number')),
+                   'empty_phone_error' => addslashes($this->l('Please fill up phone number')),
+                   'invalid_delivery_time' => addslashes($this->l('Please select delivery time'))
+               ]
+            ]);
+        }
     }
 
     public function hookActionCarrierProcess(&$params)
@@ -203,6 +215,7 @@ class DPDBaltics extends CarrierModule
                 return;
             }
         }
+
         if (!Tools::getValue('dpd-phone')) {
             $this->context->controller->errors[] =
                 $this->l('In order to use DPD Carrier you need to enter phone number');
@@ -541,6 +554,7 @@ class DPDBaltics extends CarrierModule
                     'show_shop_list' => Configuration::get(\Invertus\dpdBaltics\Config\Config::PARCEL_SHOP_DISPLAY),
                     'street_list' => $streetList,
                     'selected_street' => $selectedStreet,
+                    'current_controller' => Tools::getValue('controller'),
                 ]
             );
 
