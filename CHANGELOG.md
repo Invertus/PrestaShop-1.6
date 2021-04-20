@@ -42,6 +42,8 @@
 ### Changed
 - Added shipping cost to dpd shipment
 - Translations added for carriers on webservice change
-- javascript file priorities changed to load google map correctly in cart
-- Map reaload on address changed added
+- Map sequence loading improvements when prestashop js cache enabled
+
+## [3.1.6] - 2021-04-20
+### Changed
 - Ajax request to save phone number on order opc carrier, number validation added
