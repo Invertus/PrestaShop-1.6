@@ -1,4 +1,9 @@
 $(document).ready(function () {
+    var city = $('select[name="dpd-city"]').val();
+    if (city) {
+        updateStreetSelect(city);
+    }
+
     $(document).on('change', 'select[name="dpd-city"]', function () {
         var city = $('select[name="dpd-city"]').val();
         updateStreetSelect(city);
