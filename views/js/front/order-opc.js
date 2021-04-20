@@ -1,6 +1,4 @@
-
 var isPudoPointSelected = false;
-
 
 $(document).ready(function (){
 
@@ -24,7 +22,6 @@ $(document).ready(function (){
         location.href = $(this).attr('href');
     });
 });
-
 
 function handlePhoneNumber(selector)
 {
@@ -69,6 +66,7 @@ function slideToError() {
         scrollTop: ($('#order-opc-errors').offset().top - 300)
     }, 2000);
 }
+
 function validatePhoneNumber(phone, selector) {
     if (!isPhoneEmpty(phone)) {
         $('.dpd-checkout-phone-container .error-message').removeClass('hidden');
@@ -87,6 +85,7 @@ function validatePhoneNumber(phone, selector) {
 
     return true;
 }
+
 function isPhoneEmpty(phone) {
     if (!phone) {
         return false;
@@ -94,20 +93,22 @@ function isPhoneEmpty(phone) {
 
     return true;
 }
+
 function isPhoneValid(phone) {
 
     if (!$.isNumeric(phone)) {
         return false;
     }
+
     return true;
 }
+
 function isPudoValid() {
 
     var pudoContainer = $('.dpd-pudo-container');
     if (!pudoContainer.is(':visible')) {
         return true;
     }
-
     var pudoSelect = pudoContainer.find('.dpd-pudo-select');
     //If map and map parcel is selected
     if (( pudoSelect && pudoSelect.hasClass('button-medium'))

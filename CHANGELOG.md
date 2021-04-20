@@ -47,3 +47,6 @@
 ## [3.1.6] - 2021-04-20
 ### Changed
 - Ajax request to save phone number on order opc carrier, number validation added
+- Validations for empty phone number and invalid number
+- Validations when no pudo selected
+- Reload map on address country change
