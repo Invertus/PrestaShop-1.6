@@ -52,3 +52,4 @@
 - Reload map on address country change
 - Bugfix for missing pudo points added
 - Fix for parcel update added, update all points
+- Pudo service weights changed, Portugal and other countries added
