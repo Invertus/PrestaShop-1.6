@@ -1,14 +1,23 @@
 $(document).ready(function () {
-
-
         var city = $('select[name="dpd-city"]').val();
-        var street = $('select[name="dpd-street"]').val();
         if (city) {
             updateStreetSelect(city);
         }
-        if (city && street) {
-            saveSelectedStreet(city, street);
+
+    $( document ).ajaxComplete(function( event, request, settings ) {
+        if (currentController !== 'order-opc') {
+            return;
         }
+        var method = DPDgetUrlParam('method', settings.data)
+
+        if ( method === 'updateAddressesSelected') {
+            var city = $('select[name="dpd-city"]').val();
+            if (city) {
+                updateStreetSelect(city);
+            }
+        }
+    });
+
     $(document).on('change', 'select[name="dpd-city"]', function () {
         var city = $('select[name="dpd-city"]').val();
         updateStreetSelect(city);
@@ -25,6 +34,7 @@ $(document).ready(function () {
         var street = $('input[name="dpd-street"]').val();
         updateParcelBlock(city, street);
     });
+
 
     function updateStreetSelect(city) {
         $.ajax(dpdHookAjaxUrl, {
@@ -45,6 +55,8 @@ $(document).ready(function () {
                     var $streetSelectDiv = $('.js-pudo-search-street');
                     $streetSelectDiv.empty().append(response.template);
                     $('select.chosen-select').chosen({inherit_select_classes: true});
+                    var street = $('select[name="dpd-street"]').val();
+                    saveSelectedStreet(city, street);
                     isPudoPointSelected = true;
                 }
             },
@@ -136,3 +148,18 @@ $(document).ready(function () {
         $messageContainer.html('');
     }
 });
+function DPDgetUrlParam(sParam, string)
+{
+    var sPageURL = decodeURIComponent(string),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+}

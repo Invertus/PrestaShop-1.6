@@ -103,9 +103,14 @@ function isPhoneValid(phone) {
 }
 function isPudoValid() {
 
-    if (
-        ($('.dpd-pudo-container').find('.dpd-pudo-select') &&
-        $('.dpd-pudo-container').find('.dpd-pudo-select').hasClass('button-medium'))
+    var pudoContainer = $('.dpd-pudo-container');
+    if (!pudoContainer.is(':visible')) {
+        return true;
+    }
+
+    var pudoSelect = pudoContainer.find('.dpd-pudo-select');
+    //If map and map parcel is selected
+    if (( pudoSelect && pudoSelect.hasClass('button-medium'))
         && isPudoPointSelected ) {
         return true;
     }
