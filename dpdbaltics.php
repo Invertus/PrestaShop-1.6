@@ -554,6 +554,7 @@ class DPDBaltics extends CarrierModule
                     'show_shop_list' => Configuration::get(\Invertus\dpdBaltics\Config\Config::PARCEL_SHOP_DISPLAY),
                     'street_list' => $streetList,
                     'selected_street' => $selectedStreet,
+                    'current_controller' => Tools::getValue('controller'),
                 ]
             );
 

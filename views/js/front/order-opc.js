@@ -1,64 +1,49 @@
-var errorsElement = $('#order-opc-errors');
+
+var isPudoPointSelected = false;
 
 
-$(document).on('change', '.dpd-phone-block', function(){
-    handlePhoneNumber($(this));
+$(document).ready(function (){
+
+    $(document).on('change', '.dpd-phone-block', function(){
+        handlePhoneNumber($(this));
+    });
+
+    $(document).on('click','.payment_module a', function (e){
+        e.preventDefault();
+
+        if ($('.dpd-phone-block') !== undefined) {
+            if(!handlePhoneNumber($('.dpd-phone-block'))) {
+                return;
+            }
+        }
+        if (!isPudoValid()) {
+            showError(order_opc_errors['pickup_point_error']);
+            return;
+        }
+        hideError();
+        location.href = $(this).attr('href');
+    });
 });
+
 
 function handlePhoneNumber(selector)
 {
-    if (!$('.dpd-phone-block') !== undefined) {
-        return;
+    if (!$('.dpd-phone-block')) {
+        return true;
     }
     var phone = selector.find('input[name="dpd-phone"]').val();
     var phoneArea = selector.find('select[name="dpd-phone-area"] option:selected').val();
 
-    if (!validatePhone(phone)) {
-        $('.dpd-checkout-phone-container .error-message').removeClass('hidden');
-        selector.find('input[name="dpd-phone"]').css('border-color', 'red');
-        errorsElement.removeClass('hidden');
-        errorsElement.find('p').text(order_opc_errors['invalid_phone_error']);
-        slideToError()
-
-        return;
-    }
-    errorsElement.addClass('hidden');
-    selector.find('input[name="dpd-phone"]').css('border-color', 'initial');
-
-    saveSelectedPhoneNumber(phone, phoneArea)
-}
-
-$(document).on('click','.payment_module a', function (e){
-    e.preventDefault();
-
-    if ($('.dpd-phone-block') !== undefined) {
-        handlePhoneNumber($('.dpd-phone-block'));
-    }
-    if (!selectedPudo) {
-        console.log(selectedPudo)
-        errorsElement.removeClass('hidden');
-        errorsElement.find('p').text(order_opc_errors['pickup_point_error']);
-        slideToError();
-    }
-});
-
-
-function validatePhone(phone) {
-    if (!$.isNumeric(phone) || !phone) {
+    if (!validatePhoneNumber(phone, selector)) {
         return false;
     }
 
+    hideError();
+    selector.find('input[name="dpd-phone"]').css('border-color', 'initial');
+
+    saveSelectedPhoneNumber(phone, phoneArea)
+
     return true;
-}
-
-function isPudoPointSelected() {
-
-}
-
-function slideToError() {
-    $('html, body').animate({
-        scrollTop: ($('#order-opc-errors').offset().top - 300)
-    }, 2000);
 }
 
 function saveSelectedPhoneNumber(phoneNumber, phoneArea) {
@@ -77,4 +62,72 @@ function saveSelectedPhoneNumber(phoneNumber, phoneArea) {
 
         }
     });
+}
+
+function slideToError() {
+    $('html, body').animate({
+        scrollTop: ($('#order-opc-errors').offset().top - 300)
+    }, 2000);
+}
+function validatePhoneNumber(phone, selector) {
+    if (!isPhoneEmpty(phone)) {
+        $('.dpd-checkout-phone-container .error-message').removeClass('hidden');
+        selector.find('input[name="dpd-phone"]').css('border-color', 'red');
+        showError(order_opc_errors['empty_phone_error']);
+
+        return false;
+    }
+    if (!isPhoneValid(phone)) {
+        $('.dpd-checkout-phone-container .error-message').removeClass('hidden');
+        selector.find('input[name="dpd-phone"]').css('border-color', 'red');
+        showError(order_opc_errors['invalid_phone_error']);
+
+        return false;
+    }
+
+    return true;
+}
+function isPhoneEmpty(phone) {
+    if (!phone) {
+        return false;
+    }
+
+    return true;
+}
+function isPhoneValid(phone) {
+
+    if (!$.isNumeric(phone)) {
+        return false;
+    }
+    return true;
+}
+function isPudoValid() {
+
+    if (
+        ($('.dpd-pudo-container').find('.dpd-pudo-select') &&
+        $('.dpd-pudo-container').find('.dpd-pudo-select').hasClass('button-medium'))
+        && isPudoPointSelected ) {
+        return true;
+    }
+
+    return false;
+}
+function showError(errorMessage) {
+    $('#order-opc-errors').removeClass('hidden');
+    $('#order-opc-errors').find('p').text(errorMessage);
+    slideToError();
+}
+function hideError() {
+    $('#order-opc-errors').addClass('hidden');
+    $('#order-opc-errors').find('p').text('');
+}
+
+function uncheckSelectedPudoOnReload() {
+    $('.dpd-pudo-container').find('.dpd-pudo-select').each(function () {
+            $(this)
+                .removeClass('button-medium')
+                .addClass('button-small')
+                .attr('disabled', false);
+            $(this).find('span').text($(this).data('select'));
+        });
 }

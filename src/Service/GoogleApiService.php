@@ -16,7 +16,9 @@ use Address;
 use Configuration;
 use Country;
 use Invertus\dpdBaltics\Config\Config;
+use Invertus\dpdBaltics\Provider\CurrentCountryProvider;
 use Language;
+use phpDocumentor\Reflection\Types\Context;
 use Shop;
 use State;
 use Tools;
@@ -44,7 +46,9 @@ class GoogleApiService
      */
     private $shop;
 
-    public function __construct(Language $language, Shop $shop)
+    private $countryProvider;
+
+    public function __construct(Language $language, Shop $shop, CurrentCountryProvider $countryProvider)
     {
         $apiKey = Configuration::get(Config::GOOGLE_API_KEY);
         $this->geolocationApi = $this->getGeolocationUrl($apiKey);
@@ -52,17 +56,18 @@ class GoogleApiService
             (Configuration::get('PS_SSL_ENABLED')) && Configuration::get('PS_SSL_ENABLED_EVERYWHERE');
         $this->language = $language;
         $this->shop = $shop;
+        $this->countryProvider = $countryProvider;
     }
 
     public function getFormattedGoogleMapsUrl()
     {
-        $default_country = new Country((int)Tools::getCountry());
+        $currentCountry = $this->countryProvider->getCurrentCountryIsoCode();
         $url = 'http';
         if ((Configuration::get('PS_SSL_ENABLED')) && Configuration::get('PS_SSL_ENABLED_EVERYWHERE')) {
             $url .='s';
         }
         $url .= '://maps.google.com/maps/api/js?';
-        $url .= 'region='.Tools::substr($default_country->iso_code, 0, 2);
+        $url .= 'region='.Tools::substr($currentCountry, 0, 2);
         if (Configuration::get(Config::GOOGLE_API_KEY)) {
             $url .= '&key='.Configuration::get(Config::GOOGLE_API_KEY);
         }
