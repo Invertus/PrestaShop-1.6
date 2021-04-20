@@ -137,6 +137,7 @@ services:
     arguments:
       - '@language'
       - '@shop'
+      - '@Invertus\dpdBaltics\Provider\CurrentCountryProvider'
 
   Invertus\dpdBaltics\Logger\Logger:
     arguments:

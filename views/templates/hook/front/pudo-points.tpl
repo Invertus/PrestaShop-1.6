@@ -9,12 +9,17 @@
  *  International Registered Trademark & Property of INVERTUS, UAB
  *}
 
+<div id="order-opc-errors" class="alert alert-danger hidden">
+    <p></p>
+</div>
+
 {if (!isset($disableMap) || (isset($disableMap) && !$disableMap))}
     <div class="container dpd-checkout-pickup-container dpd-pudo-container pickup-map-{$carrierId}" data-id="{$carrierId}" {if isset($dpdIdCarrier) && $dpdIdCarrier}data-pudo-id-carrier="{$dpdIdCarrier}"{/if}>
         <div class="panel panel-default">
             {include file='./partials/dpd-message.tpl' messageType='error'}
+
             <div class="panel-heading">
-                <p class="text-left"> {l s='Please select your pick up point' mod='dpdbaltics'}</p>
+                <p class="text-left"> {if $current_controller != 'orderopc'}{l s='Please select your pick up point' mod='dpdbaltics'}{/if}</p>
             </div>
             <div class="panel-body">
                 {include file='./partials/pudo-search-block.tpl'}

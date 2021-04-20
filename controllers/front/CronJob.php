@@ -19,8 +19,15 @@ class DpdbalticsCronJobModuleFrontController extends ModuleFrontController
         switch ($action) {
             case 'updateParcelShops':
                 /** @var ParcelShopImport $parcelShopImport */
-                $parcelShopImport = $this->module->getContainer(ParcelShopImport::class);
-                $this->ajaxDie($parcelShopImport->importParcelShops(Configuration::get(Config::WEB_SERVICE_COUNTRY)));
+                $parcelShopImport = $this->module->getModuleContainer(ParcelShopImport::class);
+                $countries = Country::getCountries($this->context->language->id, true);
+
+                foreach ($countries as $country) {
+                    $response = $parcelShopImport->importParcelShops($country['iso_code']);
+                    if (!$response['success']) {
+                        $this->ajaxDie(json_encode($response));
+                    }
+                }
                 break;
             default:
                 return;

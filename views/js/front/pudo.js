@@ -23,8 +23,6 @@ var dpdMap = {};
 
 var infoWindow;
 
-
-
 $(document).ready(function () {
 
     if (typeof google !== 'undefined') {
