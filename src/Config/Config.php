@@ -21,6 +21,7 @@ class Config
     const LITHUANIA_ISO_CODE = 'LT';
     const LATVIA_ISO_CODE = 'LV';
     const ESTONIA_ISO_CODE = 'EE';
+    const PORTUGAL_ISO_CODE = 'PT';
 
     const AVAILABLE_PUDO_COD_IDS = [
         'EE90',
@@ -442,7 +443,7 @@ class Config
                 switch ($productReference) {
                     case self::PRODUCT_TYPE_PUDO:
                     case self::PRODUCT_TYPE_PUDO_COD:
-                        return 20;
+                        return 31.5;
                     case self::PRODUCT_TYPE_SATURDAY_DELIVERY:
                     case self::PRODUCT_TYPE_SAME_DAY_DELIVERY:
                     case self::PRODUCT_TYPE_SATURDAY_DELIVERY_COD:
@@ -455,7 +456,7 @@ class Config
                 switch ($productReference) {
                     case self::PRODUCT_TYPE_PUDO:
                     case self::PRODUCT_TYPE_PUDO_COD:
-                        return 20;
+                        return 31.5;
                     case self::PRODUCT_TYPE_SAME_DAY_DELIVERY:
                         return 31.5;
                     case self::PRODUCT_TYPE_SATURDAY_DELIVERY_COD:
@@ -463,8 +464,30 @@ class Config
                     default:
                         return false;
                 }
+            case self::PORTUGAL_ISO_CODE:
+                switch ($productReference) {
+                    case self::PRODUCT_TYPE_PUDO:
+                    case self::PRODUCT_TYPE_PUDO_COD:
+                        return 10.0;
+                    case self::PRODUCT_TYPE_SATURDAY_DELIVERY:
+                    case self::PRODUCT_TYPE_SAME_DAY_DELIVERY:
+                    case self::PRODUCT_TYPE_SATURDAY_DELIVERY_COD:
+                        return 31.5;
+                    default:
+                        return false;
+                }
             default:
-                return false;
+                switch ($productReference) {
+                    case self::PRODUCT_TYPE_PUDO:
+                    case self::PRODUCT_TYPE_PUDO_COD:
+                        return 20.0;
+                    case self::PRODUCT_TYPE_SATURDAY_DELIVERY:
+                    case self::PRODUCT_TYPE_SAME_DAY_DELIVERY:
+                    case self::PRODUCT_TYPE_SATURDAY_DELIVERY_COD:
+                        return 31.5;
+                    default:
+                        return false;
+                }
         }
     }
 
