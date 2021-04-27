@@ -8,7 +8,9 @@
  *
  *  International Registered Trademark & Property of INVERTUS, UAB
  *}
-
+<script>
+    var onBoard  = '';
+</script>
 <div class="dpd-on-board-section">
     <div id="dpd-on-board"
          class="dpd-on-board-main-container
