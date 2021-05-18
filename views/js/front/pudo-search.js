@@ -1,5 +1,9 @@
 $(document).ready(function () {
-    updateStreet();
+    if ($('input[name="saved_pudo_id"]').val() === undefined) {
+        updateStreet();
+    } else {
+        isPudoPointSelected = true;
+    }
 
     $( document ).ajaxComplete(function( event, request, settings ) {
         if (currentController !== 'order-opc') {
