@@ -13,6 +13,9 @@
     <div class="col-xl-6 col-lg-6 col-xs-6 dpd-city-block dpd-input-wrapper">
         <select name="dpd-city" class="form-control-chosen chosen-select">
             {if !empty($city_list)}
+                {if !$selected_city}
+                    <option selected value=""> {l s='Please select a city' mod='dpdbaltics'}</option>
+                {/if}
                 {foreach from=$city_list item=city}
                     <option {if strtolower($selected_city) === strtolower($city)}selected{/if}
                             value="{$city|escape:'htmlall':'UTF-8'}">{$city|escape:'htmlall':'UTF-8'}</option>
