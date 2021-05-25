@@ -377,15 +377,6 @@ class DPDBaltics extends CarrierModule
             }
         }
 
-        if ($serviceCarrier['is_pudo']) {
-            /** @var \Invertus\dpdBaltics\Service\Parcel\ParcelShopService $parcelShopsService */
-            $parcelShopsService = $this->getContainer()->get(\Invertus\dpdBaltics\Service\Parcel\ParcelShopService::class);
-            $shops = $parcelShopsService->getParcelShopsByCountryAndCity($countryCode, $deliveryAddress->city);
-            if (!$shops) {
-                return false;
-            }
-        }
-
         /** @var Invertus\dpdBaltics\Repository\PriceRuleRepository $priceRuleRepository */
         $priceRuleRepository = $this->getContainer()->get(Invertus\dpdBaltics\Repository\PriceRuleRepository::class);
 
@@ -484,6 +475,9 @@ class DPDBaltics extends CarrierModule
                     $selectedStreet = $deliveryAddress->address1;
                     $parcelShops = $parcelShopService->getParcelShopsByCountryAndCity($countryCode, $selectedCity);
                     $parcelShops = $parcelShopService->moveSelectedShopToFirst($parcelShops, $selectedStreet);
+                    if (!$parcelShops) {
+                        $selectedCity = null;
+                    }
                 }
             } catch (\Invertus\dpdBalticsApi\Exception\DPDBalticsAPIException $e) {
                 /** @var \Invertus\dpdBaltics\Service\Exception\ExceptionService $exceptionService */
@@ -538,7 +532,17 @@ class DPDBaltics extends CarrierModule
                 $selectedCity = $parcelShops[0]->getCity();
             }
             $streetList = $parcelShopRepo->getAllAddressesByCountryCodeAndCity($countryCode, $selectedCity);
-            $this->context->smarty->assign(
+            if (!$selectedCity) {
+                $tplVars = [
+                    'displayMessage' => true,
+                    'messages' => [$this->l("Your delivery address city is not in a list of pickup cities, please select closest pickup point city below manually")],
+                    'messageType_pudo' => 'danger'
+
+                ];
+                $this->context->smarty->assign($tplVars);
+            }
+
+                $this->context->smarty->assign(
                 [
                     'carrierId' => $carrier->id,
                     'pickUpMap' => Configuration::get(\Invertus\dpdBaltics\Config\Config::PICKUP_MAP),
