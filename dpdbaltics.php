@@ -152,10 +152,13 @@ class DPDBaltics extends CarrierModule
             ]);
 
             $this->context->controller->addCSS($this->getPathUri() . 'views/css/front/pudo-shipment.css');
-            /** @var Invertus\dpdBaltics\Service\GoogleApiService $googleApiService */
-            $googleApiService = $this->getContainer(Invertus\dpdBaltics\Service\GoogleApiService::class);
-            $this->context->controller->addJS($googleApiService->getFormattedGoogleMapsUrl());
 
+            /** @var Invertus\dpdBaltics\Service\GoogleApiService $googleApiService */
+            if (Configuration::get(\Invertus\dpdBaltics\Config\Config::PICKUP_MAP)) {
+
+                $googleApiService = $this->getContainer(Invertus\dpdBaltics\Service\GoogleApiService::class);
+                $this->context->controller->addJS($googleApiService->getFormattedGoogleMapsUrl());
+            }
             $this->context->controller->addJS($this->getPathUri() . 'views/js/front/pudo.js');
             $this->context->controller->addJS($this->getPathUri() . 'views/js/front/pudo-search.js');
         }
