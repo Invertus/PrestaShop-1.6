@@ -53,3 +53,7 @@
 - Bugfix for missing pudo points added
 - Fix for parcel update added, update all points
 - Pudo service weights changed, Portugal and other countries added
+- Show parcel terminal even tough delivery city is not correct
+- Carrier translation update
+- Vendor updated in zip folder, remove ports
+- Map bug fix when off map script loaded
