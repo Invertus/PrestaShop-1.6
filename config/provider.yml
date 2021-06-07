@@ -18,6 +18,7 @@ services:
   Invertus\dpdBaltics\Provider\ZoneRangeProvider:
     arguments:
       - '@language'
+      - '@Invertus\dpdBaltics\Repository\ZoneRangeRepository'
 
   Invertus\dpdBaltics\Provider\ProductAvailabilityProvider:
     arguments:

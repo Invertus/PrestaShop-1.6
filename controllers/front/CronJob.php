@@ -1,6 +1,7 @@
 <?php
 
 use Invertus\dpdBaltics\Config\Config;
+use Invertus\dpdBaltics\Provider\ZoneRangeProvider;
 use Invertus\dpdBaltics\Service\Import\API\ParcelShopImport;
 
 class DpdbalticsCronJobModuleFrontController extends ModuleFrontController
@@ -17,14 +18,18 @@ class DpdbalticsCronJobModuleFrontController extends ModuleFrontController
 
         $action = Tools::getValue('action');
         switch ($action) {
+
             case 'updateParcelShops':
                 /** @var ParcelShopImport $parcelShopImport */
-                $parcelShopImport = $this->module->getModuleContainer(ParcelShopImport::class);
-                $countries = Country::getCountries($this->context->language->id, true);
+                $parcelShopImport = $this->module->getContainer(ParcelShopImport::class);
+                /** @var  ZoneRangeProvider $zoneRangeProvider */
+                $zoneRangeProvider = $this->module->getContainer(ZoneRangeProvider::class);
+                $countriesInZoneRange = $zoneRangeProvider->getAllZoneRangesCountryIsoCodes();
 
-                foreach ($countries as $country) {
-                    $response = $parcelShopImport->importParcelShops($country['iso_code']);
-                    if (!$response['success']) {
+                foreach ($countriesInZoneRange as $country) {
+                    $response = $parcelShopImport->importParcelShops($country);
+
+                    if (isset($response['success']) && !$response['success']) {
                         $this->ajaxDie(json_encode($response));
                     }
                 }
