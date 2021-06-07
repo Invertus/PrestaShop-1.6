@@ -26,11 +26,20 @@ class DpdbalticsCronJobModuleFrontController extends ModuleFrontController
                 $zoneRangeProvider = $this->module->getContainer(ZoneRangeProvider::class);
                 $countriesInZoneRange = $zoneRangeProvider->getAllZoneRangesCountryIsoCodes();
 
-                foreach ($countriesInZoneRange as $country) {
-                    $response = $parcelShopImport->importParcelShops($country);
-
-                    if (isset($response['success']) && !$response['success']) {
-                        $this->ajaxDie(json_encode($response));
+                if ($countriesInZoneRange) {
+                    foreach ($countriesInZoneRange as $country) {
+                        $response = $parcelShopImport->importParcelShops($country);
+                        if (isset($response['success']) && !$response['success']) {
+                            $this->ajaxDie(json_encode($response));
+                        }
+                    }
+                } else {
+                    $countries = Country::getCountries($this->context->language->id, true);
+                    foreach ($countries as $country) {
+                        $response = $parcelShopImport->importParcelShops($country['iso_code']);
+                        if (isset($response['success']) && !$response['success']) {
+                            $this->ajaxDie(json_encode($response));
+                        }
                     }
                 }
                 break;
