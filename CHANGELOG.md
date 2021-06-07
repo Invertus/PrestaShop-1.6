@@ -57,3 +57,6 @@
 - Carrier translation update
 - Vendor updated in zip folder, remove ports
 - Map bug fix when off map script loaded
+## [3.1.7] - 2021-06-07
+### Changed
+- Import parcels function changed on cron parcel update, take countries only from zone range functionality added.
